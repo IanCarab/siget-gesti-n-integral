@@ -10,33 +10,117 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PanelRouteImport } from './routes/_panel'
+import { Route as PanelAdminRouteImport } from './routes/_panel.admin'
+import { Route as PanelClientesRouteImport } from './routes/_panel.clientes'
+import { Route as PanelHistorialRouteImport } from './routes/_panel.historial'
+import { Route as PanelInventarioRouteImport } from './routes/_panel.inventario'
+import { Route as PanelTallerRouteImport } from './routes/_panel.taller'
+import { Route as PanelVentasRouteImport } from './routes/_panel.ventas'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PanelRoute = PanelRouteImport.update({
+  id: '/_panel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PanelAdminRoute = PanelAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => PanelRoute,
+} as any)
+const PanelClientesRoute = PanelClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => PanelRoute,
+} as any)
+const PanelHistorialRoute = PanelHistorialRouteImport.update({
+  id: '/historial',
+  path: '/historial',
+  getParentRoute: () => PanelRoute,
+} as any)
+const PanelInventarioRoute = PanelInventarioRouteImport.update({
+  id: '/inventario',
+  path: '/inventario',
+  getParentRoute: () => PanelRoute,
+} as any)
+const PanelTallerRoute = PanelTallerRouteImport.update({
+  id: '/taller',
+  path: '/taller',
+  getParentRoute: () => PanelRoute,
+} as any)
+const PanelVentasRoute = PanelVentasRouteImport.update({
+  id: '/ventas',
+  path: '/ventas',
+  getParentRoute: () => PanelRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof PanelAdminRoute
+  '/clientes': typeof PanelClientesRoute
+  '/historial': typeof PanelHistorialRoute
+  '/inventario': typeof PanelInventarioRoute
+  '/taller': typeof PanelTallerRoute
+  '/ventas': typeof PanelVentasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof PanelAdminRoute
+  '/clientes': typeof PanelClientesRoute
+  '/historial': typeof PanelHistorialRoute
+  '/inventario': typeof PanelInventarioRoute
+  '/taller': typeof PanelTallerRoute
+  '/ventas': typeof PanelVentasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_panel': typeof PanelRouteWithChildren
+  '/_panel/admin': typeof PanelAdminRoute
+  '/_panel/clientes': typeof PanelClientesRoute
+  '/_panel/historial': typeof PanelHistorialRoute
+  '/_panel/inventario': typeof PanelInventarioRoute
+  '/_panel/taller': typeof PanelTallerRoute
+  '/_panel/ventas': typeof PanelVentasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/clientes'
+    | '/historial'
+    | '/inventario'
+    | '/taller'
+    | '/ventas'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/clientes'
+    | '/historial'
+    | '/inventario'
+    | '/taller'
+    | '/ventas'
+  id:
+    | '__root__'
+    | '/'
+    | '/_panel'
+    | '/_panel/admin'
+    | '/_panel/clientes'
+    | '/_panel/historial'
+    | '/_panel/inventario'
+    | '/_panel/taller'
+    | '/_panel/ventas'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PanelRoute: typeof PanelRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +132,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_panel': {
+      id: '/_panel'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PanelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_panel/admin': {
+      id: '/_panel/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof PanelAdminRouteImport
+      parentRoute: typeof PanelRoute
+    }
+    '/_panel/clientes': {
+      id: '/_panel/clientes'
+      path: '/clientes'
+      fullPath: '/clientes'
+      preLoaderRoute: typeof PanelClientesRouteImport
+      parentRoute: typeof PanelRoute
+    }
+    '/_panel/historial': {
+      id: '/_panel/historial'
+      path: '/historial'
+      fullPath: '/historial'
+      preLoaderRoute: typeof PanelHistorialRouteImport
+      parentRoute: typeof PanelRoute
+    }
+    '/_panel/inventario': {
+      id: '/_panel/inventario'
+      path: '/inventario'
+      fullPath: '/inventario'
+      preLoaderRoute: typeof PanelInventarioRouteImport
+      parentRoute: typeof PanelRoute
+    }
+    '/_panel/taller': {
+      id: '/_panel/taller'
+      path: '/taller'
+      fullPath: '/taller'
+      preLoaderRoute: typeof PanelTallerRouteImport
+      parentRoute: typeof PanelRoute
+    }
+    '/_panel/ventas': {
+      id: '/_panel/ventas'
+      path: '/ventas'
+      fullPath: '/ventas'
+      preLoaderRoute: typeof PanelVentasRouteImport
+      parentRoute: typeof PanelRoute
+    }
   }
 }
 
+interface PanelRouteChildren {
+  PanelAdminRoute: typeof PanelAdminRoute
+  PanelClientesRoute: typeof PanelClientesRoute
+  PanelHistorialRoute: typeof PanelHistorialRoute
+  PanelInventarioRoute: typeof PanelInventarioRoute
+  PanelTallerRoute: typeof PanelTallerRoute
+  PanelVentasRoute: typeof PanelVentasRoute
+}
+
+const PanelRouteChildren: PanelRouteChildren = {
+  PanelAdminRoute: PanelAdminRoute,
+  PanelClientesRoute: PanelClientesRoute,
+  PanelHistorialRoute: PanelHistorialRoute,
+  PanelInventarioRoute: PanelInventarioRoute,
+  PanelTallerRoute: PanelTallerRoute,
+  PanelVentasRoute: PanelVentasRoute,
+}
+
+const PanelRouteWithChildren = PanelRoute._addFileChildren(PanelRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PanelRoute: PanelRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

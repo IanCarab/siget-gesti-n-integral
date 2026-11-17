@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+<!-- AGENT-MEMORY:BEGIN -->
+- SIGET is an offline prototype: all data lives in browser localStorage via `src/lib/siget/store.tsx`; no backend. Why: the brief asks for a simulated offline desktop app.
+- Business rules (stock deduction, budgets, movements) are pure functions in `src/lib/siget/logic.ts`, tested in `logic.test.ts`; UI only calls them. Why: keeps rules testable and consistent across roles.
+- Role permissions live only in `src/lib/siget/roles.ts`; the `_panel` layout blocks modules a role can't access. Why: one source of truth for access.
+<!-- AGENT-MEMORY:END -->
