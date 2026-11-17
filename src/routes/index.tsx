@@ -1,49 +1,25 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Cpu, HardDrive, ShieldCheck, WifiOff } from "lucide-react";
-
-import { ROLE_ICONS } from "@/components/siget/AppShell";
-import { ROLES } from "@/lib/siget/roles";
-import { useSiget } from "@/lib/siget/store";
-import type { RoleId } from "@/lib/siget/types";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Ingresar — SIGET" },
+      { title: "SIGET — Gestión Comercial y Servicio Técnico" },
       {
         name: "description",
-        content: "Elegí tu perfil para ingresar a SIGET: administración, mostrador, taller o depósito.",
+        content: "Sistema integrado de gestión comercial y servicio técnico. Mostrador, taller y depósito en un solo lugar.",
       },
-      { property: "og:title", content: "Ingresar — SIGET" },
-      {
-        property: "og:description",
-        content: "Elegí tu perfil para ingresar a SIGET: administración, mostrador, taller o depósito.",
-      },
+      { property: "og:title", content: "SIGET — Gestión Comercial y Servicio Técnico" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Login,
+  component: Landing,
 });
 
-const ACCESOS: Record<RoleId, string> = {
-  admin: "Panel general, ventas, taller, clientes e inventario",
-  vendedor: "Punto de venta, historial y clientes",
-  tecnico: "Tablero de órdenes de reparación",
-  deposito: "Catálogo, entradas y salidas de mercadería",
-};
-
-function Login() {
-  const { setRole } = useSiget();
-  const navigate = useNavigate();
-
-  const enter = (r: RoleId) => {
-    setRole(r);
-    navigate({ to: ROLES[r].home });
-  };
-
+function Landing() {
   return (
     <div className="grid min-h-screen bg-background lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+      {/* Left panel */}
       <section className="relative hidden flex-col justify-between overflow-hidden bg-sidebar p-10 text-sidebar-foreground lg:flex">
         <div
           aria-hidden
@@ -84,44 +60,42 @@ function Login() {
         </dl>
       </section>
 
+      {/* Right panel */}
       <section className="flex items-center justify-center p-6 sm:p-10">
-        <div className="w-full max-w-2xl">
-          <div className="mb-8 lg:hidden">
+        <div className="w-full max-w-sm">
+          <div className="mb-10 lg:hidden">
             <span className="font-mono text-lg font-semibold tracking-[0.2em]">SIGET</span>
           </div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Inicio de sesión</p>
-          <h2 className="mt-2 text-2xl font-semibold">¿Con qué perfil vas a trabajar?</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Cada perfil ve solo las herramientas de su puesto. Podés cambiar de perfil desde la barra
-            superior en cualquier momento.
+
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+            Bienvenido
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold">Sistema de gestión</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Accedé con tu usuario y contraseña para ingresar al sistema.
           </p>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {(Object.keys(ROLES) as RoleId[]).map((r) => {
-              const info = ROLES[r];
-              const Icon = ROLE_ICONS[r];
-              return (
-                <button
-                  key={r}
-                  type="button"
-                  onClick={() => enter(r)}
-                  className="panel group flex flex-col items-start gap-4 p-5 text-left transition-all hover:-translate-y-0.5 hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <div className="flex w-full items-center justify-between">
-                    <div className="grid size-10 place-items-center rounded-md bg-accent text-accent-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                      <Icon className="size-5" />
-                    </div>
-                    <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">{info.titulo}</div>
-                    <div className="text-xs text-muted-foreground">{info.subtitulo}</div>
-                  </div>
-                  <div className="border-t pt-3 text-xs text-muted-foreground">{ACCESOS[r]}</div>
-                </button>
-              );
-            })}
+          <div className="mt-8">
+            <Link
+              to="/login"
+              className="group flex w-full items-center justify-between rounded-lg border bg-card px-5 py-4 text-sm font-medium transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <div className="flex items-center gap-3">
+                <div className="grid size-9 place-items-center rounded-md bg-primary text-primary-foreground">
+                  <Cpu className="size-4" />
+                </div>
+                <div className="leading-tight">
+                  <div className="font-semibold">Ingresar al sistema</div>
+                  <div className="text-xs text-muted-foreground">Elegí tu perfil de trabajo</div>
+                </div>
+              </div>
+              <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+            </Link>
           </div>
+
+          <p className="mt-8 text-center text-xs text-muted-foreground">
+            Vista de demostración · Datos locales en el navegador
+          </p>
         </div>
       </section>
     </div>

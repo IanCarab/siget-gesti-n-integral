@@ -8,7 +8,7 @@ import { ROLES } from "@/lib/siget/roles";
 import { useSiget } from "@/lib/siget/store";
 import type { RoleId } from "@/lib/siget/types";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/login")({
   head: () => ({ meta: [
     { title: "Siget | Gestión de tecnología y servicio técnico" },
     { name: "description", content: "Panel de gestión para ventas, inventario y reparaciones de computadoras." },
